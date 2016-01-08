@@ -8,29 +8,55 @@ Item {
     width: 640
     height: 480
 
-    property alias model: model
+    property alias model: listView.model;
+    property alias delegate: listView.delegate;
+    property alias username: username.text;
+    property alias password: password.text;
+    property alias connectAutomatically: connectAutomatically.checked;
+    property alias filter: filter.text;
+
+    property alias connectButton: connect;
 
     ListView {
         id: listView
+        clip: true
+        anchors.topMargin: 34
         anchors.fill: parent
-        delegate: Item {
-            x: 5
-            width: 80
-            height: 40
-            Row {
-                Text {
-                    text: displayName
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-                spacing: 10
-            }
-        }
-        model: XmlListModel {
-            id: model
-            source: "http://localhost:8080/api/xml?tree=jobs[*]"
-            query: "/hudson/job"
+    }
 
-            XmlRole { name: "displayName"; query: "displayName/string()" }
-        }
+    TextField {
+        id: username
+        x: 8
+        y: 8
+        placeholderText: qsTr("User name")
+    }
+
+    TextField {
+        id: password
+        x: 141
+        y: 8
+        echoMode: 2
+        placeholderText: qsTr("Password")
+    }
+
+    Button {
+        id: connect
+        x: 274
+        y: 7
+        text: qsTr("&Connect")
+    }
+
+    CheckBox {
+        id: connectAutomatically
+        x: 355
+        y: 10
+        text: qsTr("Connect automatically")
+    }
+
+    TextField {
+        id: filter
+        x: 505
+        y: 8
+        placeholderText: "Filter"
     }
 }

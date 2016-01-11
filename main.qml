@@ -70,10 +70,12 @@ ApplicationWindow {
         var password = get('password', '');
         var connectAutomatically = get('connectAutomatically', false);
         var filter = get('filter', '');
+        var address = get('address', 'https://localhost:8080');
         form.username = username;
         form.password = password;
         form.connectAutomatically = connectAutomatically;
         form.filter = filter;
+        form.address = address;
         if(connectAutomatically)
             timer.start();
     }
@@ -83,10 +85,12 @@ ApplicationWindow {
         var password = form.password;
         var connectAutomatically = form.connectAutomatically;
         var filter = form.filter;
+        var address = form.address;
         set('username', username);
         set('password', password);
         set('connectAutomatically', connectAutomatically);
         set('filter', filter);
+        set('address', address);
     }
 
     Timer {
@@ -96,7 +100,8 @@ ApplicationWindow {
         running: false;
         onTriggered: {
             var params = JSON.stringify({parameter: [{name: "exchange_revision", value: "test"}]});
-            var result = httpPost("https://jellyfish.bar.gameloft.org/api/xml?tree=jobs[*]", "json="+params)
+            var result = httpPost(form.address + '/api/xml?tree=jobs[*]', 'json=' + params);
+//            var result = httpPost("https://jellyfish.bar.gameloft.org/api/xml?tree=jobs[*]", "json="+params)
             model.xml = result;
         }
     }
